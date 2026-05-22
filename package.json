@@ -1,0 +1,19 @@
+{
+  "name": "neon-quiz-arena",
+  "version": "1.0.0",
+  "description": "Premium futuristic quiz game with Node.js and MongoDB",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node server/seed/seedData.js"
+  },
+  "keywords": ["quiz", "mongodb", "nodejs"],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.3"
+  }
+}

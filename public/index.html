@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Quiz Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+  <div class="glow-orb glow-orb--1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--2" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--3" aria-hidden="true"></div>
+
+  <main id="app">
+    <!-- Landing -->
+    <section id="screen-landing" class="screen screen--active">
+      <div class="landing-container">
+        <!-- Hero Section -->
+        <div class="hero glass-panel">
+          <div class="hero__badge">Neural Trivia Protocol v2.0</div>
+          <h1 class="hero__title">
+            <span class="hero__title-line">NEON</span>
+            <span class="hero__title-line hero__title-line--accent">QUIZ ARENA</span>
+          </h1>
+          <p class="hero__subtitle">Enter the future of trivia. Battle the clock, climb the leaderboard, dominate every category.</p>
+          <div class="hero__actions">
+            <button id="btn-start" class="btn btn--primary btn--glow">
+              <span class="btn__text">Start Quiz</span>
+              <span class="btn__shine"></span>
+            </button>
+            <button id="btn-leaderboard-landing" class="btn btn--ghost">View Leaderboard</button>
+          </div>
+          <div class="profile-strip">
+            <span class="profile-strip__label">Connect with <span data-profile-name>Tanmayee</span></span>
+            <div class="social-links" id="social-links-hero"></div>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+          <div class="feature-card glass-panel">
+            <div class="feature-card__icon">💻</div>
+            <h3 class="feature-card__title">5 Categories</h3>
+            <p class="feature-card__desc">Technology, Sports, Movies, Science & General Knowledge</p>
+          </div>
+          <div class="feature-card glass-panel">
+            <div class="feature-card__icon">⚡</div>
+            <h3 class="feature-card__title">Speed Challenge</h3>
+            <p class="feature-card__desc">Race against the clock with dynamic time limits</p>
+          </div>
+          <div class="feature-card glass-panel">
+            <div class="feature-card__icon">🏆</div>
+            <h3 class="feature-card__title">Global Rankings</h3>
+            <p class="feature-card__desc">Compete on the leaderboard and prove your dominance</p>
+          </div>
+          <div class="feature-card glass-panel">
+            <div class="feature-card__icon">🎯</div>
+            <h3 class="feature-card__title">3 Difficulties</h3>
+            <p class="feature-card__desc">Easy, Medium, and Hard challenges for all skill levels</p>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-container">
+          <div class="stat-box glass-panel">
+            <div class="stat-box__value">75+</div>
+            <div class="stat-box__label">Questions</div>
+          </div>
+          <div class="stat-box glass-panel">
+            <div class="stat-box__value">∞</div>
+            <div class="stat-box__label">Replayable</div>
+          </div>
+          <div class="stat-box glass-panel">
+            <div class="stat-box__value">24/7</div>
+            <div class="stat-box__label">Available</div>
+          </div>
+        </div>
+
+        <!-- How to Play Section -->
+        <div class="how-to glass-panel">
+          <h2 class="how-to__title">How to Play</h2>
+          <div class="steps-grid">
+            <div class="step">
+              <div class="step__number">1</div>
+              <h4 class="step__title">Choose Category</h4>
+              <p class="step__desc">Pick your favorite topic</p>
+            </div>
+            <div class="step">
+              <div class="step__number">2</div>
+              <h4 class="step__title">Select Difficulty</h4>
+              <p class="step__desc">Easy, Medium, or Hard</p>
+            </div>
+            <div class="step">
+              <div class="step__number">3</div>
+              <h4 class="step__title">Answer Questions</h4>
+              <p class="step__desc">Race against the timer</p>
+            </div>
+            <div class="step">
+              <div class="step__number">4</div>
+              <h4 class="step__title">Climb Rankings</h4>
+              <p class="step__desc">Top the leaderboard</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-banner glass-panel">
+          <h2 class="cta-banner__title">Ready to Test Your Knowledge?</h2>
+          <p class="cta-banner__subtitle">Join thousands of players in the ultimate trivia challenge</p>
+          <button id="btn-start-cta" class="btn btn--primary btn--glow btn--large">
+            <span class="btn__text">Launch Your Mission</span>
+            <span class="btn__shine"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup: Category + Difficulty -->
+    <section id="screen-setup" class="screen">
+      <header class="screen-header">
+        <button class="btn btn--icon btn-back" data-back="landing" aria-label="Go back">←</button>
+        <h2 class="screen-header__title">Mission Setup</h2>
+        <div class="screen-header__spacer"></div>
+      </header>
+
+      <div class="setup-block glass-panel">
+        <h3 class="setup-block__label">Select Category</h3>
+        <div id="category-grid" class="card-grid"></div>
+      </div>
+
+      <div class="setup-block glass-panel">
+        <h3 class="setup-block__label">Difficulty Level</h3>
+        <div id="difficulty-grid" class="difficulty-grid"></div>
+      </div>
+
+      <div class="setup-block glass-panel">
+        <h3 class="setup-block__label">Pilot Name</h3>
+        <input id="player-name" type="text" class="input-glow" placeholder="Enter your callsign..." maxlength="24" autocomplete="nickname" />
+      </div>
+
+      <button id="btn-launch" class="btn btn--primary btn--glow btn--full" disabled>
+        <span class="btn__text">Launch Mission</span>
+        <span class="btn__shine"></span>
+      </button>
+    </section>
+
+    <!-- Quiz -->
+    <section id="screen-quiz" class="screen">
+      <header class="quiz-hud glass-panel">
+        <div class="quiz-hud__left">
+          <span id="hud-category" class="hud-tag"></span>
+          <span id="hud-difficulty" class="hud-tag hud-tag--diff"></span>
+          <div class="streak-display">
+            <span class="streak-display__icon">🔥</span>
+            <span class="streak-display__text" id="streak-counter">0</span>
+          </div>
+        </div>
+        <div class="quiz-hud__center">
+          <div class="score-display">
+            <span class="score-display__label">Score</span>
+            <span id="score-value" class="score-display__value">0</span>
+          </div>
+          <div class="combo-display hidden" id="combo-display">
+            <span class="combo-display__multiplier" id="combo-multiplier">x2</span>
+            <span class="combo-display__text">Combo</span>
+          </div>
+        </div>
+        <div class="quiz-hud__right">
+          <div class="timer-ring" id="timer-ring">
+            <svg viewBox="0 0 36 36" class="timer-ring__svg">
+              <path class="timer-ring__bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path id="timer-progress" class="timer-ring__fill" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <span id="timer-value" class="timer-ring__text">15</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="progress-track">
+        <div id="progress-bar" class="progress-track__fill"></div>
+        <span id="progress-label" class="progress-track__label">Question 1 of 10</span>
+      </div>
+
+      <div class="lifelines glass-panel" id="lifelines-bar">
+        <span class="lifelines__label">Power-Ups</span>
+        <button type="button" class="lifeline-btn" id="lifeline-5050" title="Remove two wrong answers">
+          <span class="lifeline-btn__icon">50</span><span class="lifeline-btn__name">50/50</span>
+        </button>
+        <button type="button" class="lifeline-btn" id="lifeline-time" title="Add 8 seconds">
+          <span class="lifeline-btn__icon">⏱</span><span class="lifeline-btn__name">+8s</span>
+        </button>
+        <button type="button" class="lifeline-btn" id="lifeline-skip" title="Skip this question">
+          <span class="lifeline-btn__icon">⏭</span><span class="lifeline-btn__name">Skip</span>
+        </button>
+        <span class="lifelines__hint">Keys: 1–4 answer · S skip</span>
+      </div>
+
+      <div id="question-card" class="question-card glass-panel">
+        <div class="question-card__meta">
+          <span id="question-number" class="question-card__num">Q1</span>
+          <span id="momentum-badge" class="momentum-badge hidden">On Fire!</span>
+        </div>
+        <p id="question-text" class="question-card__text"></p>
+        <div id="options-grid" class="options-grid"></div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="screen-results" class="screen">
+      <div class="results glass-panel">
+        <div id="results-icon" class="results__icon">🏆</div>
+        <h2 class="results__title">Mission Complete</h2>
+        <div class="results__score-ring">
+          <svg viewBox="0 0 120 120" class="results-ring">
+            <circle class="results-ring__bg" cx="60" cy="60" r="54" />
+            <circle id="results-ring-fill" class="results-ring__fill" cx="60" cy="60" r="54" />
+          </svg>
+          <div class="results__percent">
+            <span id="results-percent">0</span><span>%</span>
+          </div>
+        </div>
+        <p id="results-message" class="results__message"></p>
+        <div id="results-rank" class="results__rank"></div>
+        <div class="results__details">
+          <div class="result-stat"><span>Score</span><strong id="results-score">0</strong></div>
+          <div class="result-stat"><span>Correct</span><strong id="results-correct">0/0</strong></div>
+          <div class="result-stat"><span>Time Bonus</span><strong id="results-bonus">0</strong></div>
+          <div class="result-stat"><span>Best Streak</span><strong id="results-streak">0</strong></div>
+        </div>
+        <div id="results-badges" class="results-badges"></div>
+        <div class="results__actions">
+          <button id="btn-restart" class="btn btn--primary btn--glow"><span class="btn__text">Play Again</span><span class="btn__shine"></span></button>
+          <button id="btn-leaderboard-results" class="btn btn--ghost">Leaderboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section id="screen-leaderboard" class="screen">
+      <header class="screen-header">
+        <button class="btn btn--icon btn-back" data-back="landing" aria-label="Go back">←</button>
+        <h2 class="screen-header__title">Hall of Fame</h2>
+        <div class="screen-header__spacer"></div>
+      </header>
+      <div class="leaderboard glass-panel">
+        <div id="leaderboard-list" class="leaderboard__list"></div>
+        <p id="leaderboard-empty" class="leaderboard__empty hidden">No scores yet. Be the first champion!</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer glass-panel" id="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="site-footer__logo">NEON QUIZ ARENA</span>
+        <p class="site-footer__credit">Crafted by <span data-profile-name>Pranith Modalla</span></p>
+      </div>
+      <div class="social-links" id="social-links-footer"></div>
+    </div>
+  </footer>
+
+  <div id="countdown-overlay" class="countdown-overlay hidden" aria-hidden="true">
+    <span id="countdown-number" class="countdown-overlay__num">3</span>
+    <span class="countdown-overlay__label">Get Ready</span>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script src="/js/sounds.js"></script>
+  <script src="/js/effects.js"></script>
+  <script src="/js/profile.js"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
