@@ -15,6 +15,34 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+let runtimeInitPromise;
+
+const initializeRuntime = async () => {
+  if (!runtimeInitPromise) {
+    runtimeInitPromise = (async () => {
+      const forceMemory = process.env.USE_MEMORY === 'true';
+      const dbConnected = forceMemory ? false : await connectDB();
+
+      app.locals.memoryMode = !dbConnected;
+      if (!dbConnected) {
+        memoryStore.init();
+        console.log('Running in memory mode (75 questions loaded, leaderboard in-session)');
+      }
+    })();
+  }
+
+  return runtimeInitPromise;
+};
+
+app.use(async (_req, res, next) => {
+  try {
+    await initializeRuntime();
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to initialize server' });
+  }
+});
+
 app.use('/api/questions', questionsRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/profile', profileRouter);
@@ -32,18 +60,14 @@ app.get('*', (_req, res) => {
 });
 
 const start = async () => {
-  const forceMemory = process.env.USE_MEMORY === 'true';
-  const dbConnected = forceMemory ? false : await connectDB();
-
-  app.locals.memoryMode = !dbConnected;
-  if (!dbConnected) {
-    memoryStore.init();
-    console.log('Running in memory mode (75 questions loaded, leaderboard in-session)');
-  }
-
+  await initializeRuntime();
   app.listen(PORT, () => {
     console.log(`Neon Quiz Arena running at http://localhost:${PORT}`);
   });
 };
 
-start();
+if (require.main === module) {
+  start();
+}
+
+module.exports = app;

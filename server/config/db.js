@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
+  if (!process.env.MONGODB_URI && process.env.VERCEL) {
+    console.warn('MONGODB_URI is not set on Vercel; using in-memory data store');
+    return false;
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/neon-quiz-arena';
   const useTls = uri.includes('mongodb+srv') || uri.includes('ssl=true');
 
