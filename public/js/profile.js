@@ -1,7 +1,7 @@
 const DEFAULT_PROFILE = {
-  name: 'Tanmayee',
-  github: 'https://github.com/modallatanmayee',
-  linkedin: 'https://www.linkedin.com/in/tanmayee-modallatanmayee',
+  name: 'Pranith Modalla',
+  github: 'https://github.com/Pranith-creater',
+  linkedin: 'https://www.linkedin.com/in/pranith-modalla-771951325',
 };
 
 const SOCIAL_ICONS = {
